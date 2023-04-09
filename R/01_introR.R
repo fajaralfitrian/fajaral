@@ -56,3 +56,22 @@ for (i in 1:5) {
 library("tidyverse")
 library("here")
 library("janitor")
+library(ggplot2)
+
+library(readr)
+library(here)
+library(janitor)
+
+data.path <- here("data", "IndonesianMammalVertNet.csv")
+data.path
+data.df <- read.csv(data.path)
+colnames(data.df)
+cleanedData.df <- clean_names(data.df)
+colnames(cleanedData.df)
+newData.df <- select(cleanedData.df, order, genus, specificepithet, lengthinmm, minimumelevationinmeters)
+colls <- c("order", "genus", "specificepithet", "lengthinmm", "minimumelevationinmeters")
+ggplot(newData.df, aes(x = order, y = lengthinmm)) +
+  geom_point() +
+  theme_classic() +
+  labs(x = "order", y = "lengthinmm")
+ggsave(here("figures", "plot1.png"), height = 5, width = 7)
